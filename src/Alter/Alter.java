@@ -15,6 +15,5 @@ public class Alter {
         System.out.println("| 5 - alterar quantidade  |");
         System.out.println("|        6 - sair         |");
         System.out.println("---------------------------");
-
     }
 }

@@ -5,13 +5,10 @@ public class Users {
     private int codigo;
     private String nome;
 
-    public Users(int codigo, String nome){
+
+    public Users (int codigo, String nome){
         this.codigo = codigo;
         this.nome = nome;
-    }
-
-    public Users(int codigo){
-        this.codigo = codigo;
     }
 
     public int getCodigo() {

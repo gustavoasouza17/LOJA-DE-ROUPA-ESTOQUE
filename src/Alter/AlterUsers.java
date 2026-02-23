@@ -30,40 +30,41 @@ public class AlterUsers {
         int codigo;
 
         if (desejo == 1) {
-            System.out.println("Gostaria de alterar o nome de usuário referente a qual código: ");
+            System.out.println("Gostaria de alterar o nome de referente a qual usuário: ");
+            System.out.print("Digite o código do usuário: ");
             codigo = sc.nextInt();
 
-            String sql = "SELECT * FROM users WHERE codigo = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, codigo);
-            ResultSet resultSet = stmt.executeQuery();
-
-            List<Users> users = new ArrayList<>();
-
-            while (resultSet.next()) {
-                codigo = resultSet.getInt("codigo");
-                users.add(new Users(codigo));
-            }
-
-            if (users.isEmpty()) {
-                System.out.println("\nNão possue esse item na tabela!");
-                connection.close();
+            if (codigo == 1){
+                System.out.println("Contate o desenvolvedor para alterar o nome do admin.");
             } else {
-                for (Users s : users) {
-                    System.out.println("Gostaria de atualizar o registro do seguinte usuário" +
-                            " ==> " + s.getCodigo() + ", " + s.getNome());
+                String sql = "SELECT * FROM users WHERE codigo = ?";
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.setInt(1, codigo);
+                ResultSet resultSet = stmt.executeQuery();
+
+                List <Users> users = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    codigo = resultSet.getInt("codigo");
+                    users.add(new Users(codigo, resultSet.getString(2)));
                 }
 
-                System.out.println();
-                System.out.println("Digite 'S' pra sim, ou 'N' para não: ");
-                String condition = sc.next();
-                System.out.println();
-                boolean continuar = true;
+                if (users.isEmpty()) {
+                    System.out.println("\nNão possue esse item na tabela!");
+                    connection.close();
+                } else {
+                    for (Users s : users) {
+                        System.out.println("Gostaria de atualizar o registro do seguinte usuário" +
+                                " ==> " + s.getCodigo() + ", " + s.getNome());
+                    }
 
-                while (continuar) {
-                    if (condition.equalsIgnoreCase("S")) {
-                        System.out.println();
+                    System.out.println();
+                    System.out.print("Digite 'S' pra sim, ou 'N' para não: ");
+                    String condition = sc.next();
+                    boolean continuar = true;
 
+                    while (continuar) {
+                        if (condition.equalsIgnoreCase("S")) {
                             System.out.print("Digite o nome atualizado: ");
                             String novoNome = sc.next();
 
@@ -73,9 +74,12 @@ public class AlterUsers {
                             stmt.setString(1, novoNome);
                             stmt.setInt(2, codigo);
                             stmt.execute();
-                            System.out.println();
 
                             System.out.println("Registro atualizado com sucesso!");
+                            continuar = false;
+                        } else{
+                            continuar = false;
+                        }
                     }
                 }
             }
@@ -83,49 +87,53 @@ public class AlterUsers {
             System.out.println("Gostaria de alterar a senha de usuário referente a qual código: ");
             codigo = sc.nextInt();
 
-            String sql = "SELECT * FROM users WHERE codigo = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, codigo);
-            ResultSet resultSet = stmt.executeQuery();
-
-            List<Users> users = new ArrayList<>();
-
-            while (resultSet.next()) {
-                codigo = resultSet.getInt("codigo");
-                users.add(new Users(codigo));
-            }
-
-            if (users.isEmpty()) {
-                System.out.println("\nNão possue esse item na tabela!");
-                connection.close();
+            if (codigo == 1){
+                System.out.println("Contate o desenvolvedor para alterar a senha do admin.");
             } else {
-                for (Users s : users) {
-                    System.out.println("Gostaria de atualizar o registro do seguinte usuário" +
-                            " ==> " + s.getCodigo() + ", " + s.getNome());
+                String sql = "SELECT * FROM users WHERE codigo = ?";
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.setInt(1, codigo);
+                ResultSet resultSet = stmt.executeQuery();
+
+                List<Users> users = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    codigo = resultSet.getInt("codigo");
+                    users.add(new Users(codigo, resultSet.getString(2)));
                 }
 
-                System.out.println();
-                System.out.println("Digite 'S' pra sim, ou 'N' para não: ");
-                String condition = sc.next();
-                System.out.println();
-                boolean continuar = true;
+                if (users.isEmpty()) {
+                    System.out.println("\nNão possue esse item na tabela!");
+                    connection.close();
+                } else {
+                    for (Users s : users) {
+                        System.out.println("Gostaria de atualizar o registro do seguinte usuário" +
+                                " ==> " + s.getCodigo() + ", " + s.getNome());
+                    }
 
-                while (continuar) {
-                    if (condition.equalsIgnoreCase("S")) {
-                        System.out.println();
+                    System.out.println();
+                    System.out.print("Digite 'S' pra sim, ou 'N' para não: ");
+                    String condition = sc.next();
+                    boolean continuar = true;
 
-                        System.out.print("Digite a senha atualizado: ");
-                        String novaSenha = sc.next();
+                    while (continuar) {
+                        if (condition.equalsIgnoreCase("S")) {
 
-                        System.out.println();
-                        sql = "UPDATE users set SENHA = ? WHERE codigo = ?";
-                        stmt = connection.prepareStatement(sql);
-                        stmt.setString(1, novaSenha);
-                        stmt.setInt(2, codigo);
-                        stmt.execute();
-                        System.out.println();
+                            System.out.print("Digite a senha atualizado: ");
+                            String novaSenha = sc.next();
 
-                        System.out.println("Registro atualizado com sucesso!");
+                            System.out.println();
+                            sql = "UPDATE users set SENHA = ? WHERE codigo = ?";
+                            stmt = connection.prepareStatement(sql);
+                            stmt.setString(1, novaSenha);
+                            stmt.setInt(2, codigo);
+                            stmt.execute();
+
+                            System.out.println("Registro atualizado com sucesso!");
+                            continuar = false;
+                        } else {
+                            continuar = false;
+                        }
                     }
                 }
             }
